@@ -11,8 +11,9 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
+import { Form } from "../ui/form";
+import { postRequest } from "@/utils";
+import CustomField from "../shared/CustomField/CustomField";
 
 const AddAgent = () => {
   const form = useForm<z.infer<typeof agentSchema>>({
@@ -22,10 +23,24 @@ const AddAgent = () => {
       lastname: "",
       email: "",
       phoneNum: 0,
+      image: "",
     },
   });
 
-  const submitHandler = () => {};
+  const submitHandler = async (values: z.infer<typeof agentSchema>) => {
+    const formData = new FormData();
+
+    formData.append("name", values.name);
+    formData.append("surname", values.lastname);
+    formData.append("phone", values.phoneNum);
+    formData.append("email", values.email);
+    formData.append("avatar", values.image);
+
+    postRequest(
+      formData,
+      "https://api.real-estate-manager.redberryinternship.ge/api/agents"
+    );
+  };
 
   return (
     <Popover>
@@ -40,72 +55,49 @@ const AddAgent = () => {
 
         <Form {...form}>
           <form
-            onSubmit={submitHandler}
+            onSubmit={form.handleSubmit(submitHandler)}
             className="w-full flex flex-col justify-between items-center gap-7"
           >
             <div className="w-full flex justify-between gap-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-medium text-sm mb-2">
-                      სახელი
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} className="w-full" />
-                    </FormControl>
-                  </FormItem>
-                )}
+              <CustomField
+                type="text"
+                details={{
+                  name: "name",
+                  label: "სახელი",
+                }}
               />
 
-              <FormField
-                control={form.control}
-                name="lastname"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-medium text-sm mb-2">
-                      გვარიხ
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} className="w-full" />
-                    </FormControl>
-                  </FormItem>
-                )}
+              <CustomField
+                type="text"
+                details={{
+                  name: "lastname",
+                  label: "გვარი",
+                }}
               />
             </div>
 
             <div className="w-full flex justify-between gap-2">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-medium text-sm mb-2">
-                      ელ-ფოსტა
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="email" {...field} className="w-full" />
-                    </FormControl>
-                  </FormItem>
-                )}
+              <CustomField
+                type="email"
+                details={{
+                  name: "email",
+                  label: "ელ-ფოსტა",
+                }}
               />
 
-              <FormField
-                control={form.control}
-                name="phoneNum"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-medium text-sm mb-2">
-                      ტელეფონი
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="number" {...field} className="w-full" />
-                    </FormControl>
-                  </FormItem>
-                )}
+              <CustomField
+                type="number"
+                details={{
+                  name: "phoneNum",
+                  label: "ტელეფონი",
+                }}
               />
             </div>
+
+            <CustomField
+              type="file"
+              details={{ name: "image", label: "აირჩიეთ ფოტო", form: form }}
+            />
 
             <div className="flex gap-4 self-end">
               <PopoverClose>
