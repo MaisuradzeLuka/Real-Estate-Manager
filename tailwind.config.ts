@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         "button-orange": "#F93B1D",
         "button-orange-hover": "#DF3014",
+        "border-gray": "#808A93",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

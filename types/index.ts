@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 export interface ICustomProps {
   name: string;
   label: string;
+  errText: string;
   inputVariant?: string;
   labelVariant?: string;
 }

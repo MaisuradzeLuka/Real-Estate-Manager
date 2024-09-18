@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IFileField } from "@/types";
+import { GoPlusCircle } from "react-icons/go";
 
 const Text = ({
   name,
@@ -18,7 +19,7 @@ const Text = ({
     const imageData = e.target.files?.[0];
 
     if (imageData) {
-      form.setValue("image", imageData);
+      form.setValue("image", JSON.stringify(imageData));
     } else {
       form.setValue("image", "");
     }
@@ -29,15 +30,23 @@ const Text = ({
       name={name}
       render={() => (
         <FormItem className="w-full">
-          <FormLabel className={`font-medium text-sm mb-2 ${labelVariant}`}>
+          <h3 className={`font-medium text-sm mb-2 ${labelVariant}`}>
             {label}
-          </FormLabel>
+          </h3>
+
           <FormControl>
-            <Input
-              type="file"
-              onChange={(e) => fileSelectorHandler(e)}
-              className={`w-full ${inputVariant}`}
-            />
+            <label
+              htmlFor="img"
+              className="flex justify-center items-center w-full h-32 border border-border-gray border-spacing-4 border-dashed rounded-[8px] text-3xl cursor-pointer"
+            >
+              <GoPlusCircle />
+              <Input
+                id="img"
+                type="file"
+                onChange={(e) => fileSelectorHandler(e)}
+                className={`w-full ${inputVariant} hidden`}
+              />
+            </label>
           </FormControl>
         </FormItem>
       )}
