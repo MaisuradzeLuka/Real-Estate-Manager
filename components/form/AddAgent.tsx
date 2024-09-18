@@ -54,7 +54,7 @@ const AddAgent = () => {
     <Dialog>
       <DialogTrigger>
         <Button type="button" variant="light">
-          Open
+          + აგენტის დამატება
         </Button>
       </DialogTrigger>
 

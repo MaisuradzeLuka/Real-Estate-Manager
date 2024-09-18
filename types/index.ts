@@ -25,3 +25,47 @@ export interface IFileField {
   inputVariant?: string;
   labelVariant?: string;
 }
+
+export interface IListing {
+  id: number;
+  address: string;
+  zip_code: number;
+  price: number;
+  area: number;
+  bedrooms: number;
+  is_rental: number;
+  image: string;
+  city_id: number;
+  city: {
+    id: number;
+    name: string;
+    region_id: number;
+    region: {
+      id: number;
+      name: string;
+    };
+  };
+}
+
+export interface ISingleListing extends IListing {
+  description: string;
+  agent_id: number;
+  created_at: Date;
+  city: {
+    id: number;
+    name: string;
+    region_id: number;
+    region: {
+      id: number;
+      name: string;
+    };
+  };
+  agent: {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    avatar: string;
+    phone: number;
+  };
+}
